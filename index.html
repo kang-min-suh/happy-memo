@@ -5,396 +5,288 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>행복메모</title>
 <style>
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{
-    font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
-    background:#f4faf0;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    padding:24px 16px 48px;
-  }
-  #app{width:100%;max-width:480px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  background:#f4faf0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  padding:24px 16px 60px;
+}
+#app{width:100%;max-width:480px;}
 
-  /* 공통 카드 */
-  .card{
-    background:#fff;
-    border:1px solid #d4e8cc;
-    border-radius:16px;
-    padding:18px 20px;
-    margin-bottom:14px;
-  }
+.card{background:#fff;border:1px solid #d4e8cc;border-radius:16px;padding:18px 20px;margin-bottom:14px;}
 
-  /* 타이틀 */
-  .title-area{text-align:center;margin-bottom:20px;}
-  .title-area h1{font-size:22px;font-weight:600;color:#2E7D32;letter-spacing:-0.3px;}
+.entry-wrap{min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.entry-icon{font-size:48px;text-align:center;margin-bottom:14px;}
+.entry-title{font-size:22px;font-weight:600;color:#2E7D32;text-align:center;margin-bottom:6px;}
+.entry-sub{font-size:13px;color:#888;text-align:center;margin-bottom:28px;}
+.entry-card{width:100%;max-width:360px;background:#fff;border:1px solid #d4e8cc;border-radius:16px;padding:24px;}
+.entry-card label{display:block;font-size:13px;color:#666;margin-bottom:8px;}
+.entry-card input{width:100%;border:1px solid #c8e6c9;border-radius:10px;padding:11px 14px;font-size:15px;color:#1a1a1a;background:#fff;outline:none;font-family:inherit;transition:border-color 0.2s;}
+.entry-card input:focus{border-color:#5A9B3F;}
 
-  /* 날짜 카드 */
-  .date-card{text-align:center;}
-  .date-card .date-text{font-size:15px;font-weight:500;color:#1a1a1a;}
-  .date-card .time-text{font-size:12px;color:#888;margin-top:4px;}
+.btn-green{width:100%;padding:13px;border-radius:12px;border:none;background:#5A9B3F;color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:background 0.15s,opacity 0.15s;}
+.btn-green:hover:not(:disabled){background:#4a8a32;}
+.btn-green:disabled{opacity:0.35;cursor:default;}
 
-  /* 이름 입력 */
-  .entry-wrap{
-    min-height:80vh;
-    display:flex;flex-direction:column;
-    align-items:center;justify-content:center;
-    gap:0;
-  }
-  .entry-icon{font-size:48px;text-align:center;margin-bottom:14px;}
-  .entry-title{font-size:22px;font-weight:600;color:#2E7D32;text-align:center;margin-bottom:6px;}
-  .entry-sub{font-size:13px;color:#888;text-align:center;margin-bottom:28px;}
-  .entry-card{width:100%;max-width:360px;}
-  .entry-card label{display:block;font-size:13px;color:#666;margin-bottom:8px;}
-  .entry-card input{
-    width:100%;border:1px solid #c8e6c9;border-radius:10px;
-    padding:11px 14px;font-size:15px;color:#1a1a1a;
-    background:#fff;outline:none;
-    font-family:inherit;
-    transition:border-color 0.2s;
-  }
-  .entry-card input:focus{border-color:#5A9B3F;}
+.title-area{text-align:center;margin-bottom:20px;}
+.title-area h1{font-size:22px;font-weight:600;color:#2E7D32;}
+.date-card{text-align:center;}
+.date-card .date-text{font-size:15px;font-weight:500;color:#1a1a1a;}
+.date-card .time-text{font-size:12px;color:#888;margin-top:4px;}
 
-  /* 버튼 공통 */
-  .btn-green{
-    width:100%;padding:13px;border-radius:12px;border:none;
-    background:#5A9B3F;color:#fff;font-size:14px;font-weight:600;
-    cursor:pointer;font-family:inherit;
-    transition:background 0.15s, opacity 0.15s;
-    letter-spacing:0.2px;
-  }
-  .btn-green:hover:not(:disabled){background:#4a8a32;}
-  .btn-green:disabled{opacity:0.35;cursor:default;}
+.greeting{font-size:15px;color:#1a1a1a;margin-bottom:10px;font-weight:500;}
+textarea{width:100%;min-height:140px;border:none;outline:none;font-size:14px;color:#1a1a1a;background:transparent;resize:none;font-family:inherit;line-height:1.9;}
+textarea::placeholder{color:#bbb;}
+.divider{border:none;border-top:1px solid #e8f5e4;margin:10px 0 12px;}
+.love-msg{font-size:15px;}
+.love-msg .heart{color:#E8789A;}
+.love-msg .txt{color:#2E7D32;font-weight:500;}
 
-  /* 글쓰기 영역 */
-  .greeting{font-size:15px;color:#1a1a1a;margin-bottom:10px;font-weight:500;}
-  textarea{
-    width:100%;min-height:140px;border:none;outline:none;
-    font-size:14px;color:#1a1a1a;background:transparent;
-    resize:none;font-family:inherit;line-height:1.9;
-  }
-  textarea::placeholder{color:#bbb;}
-  .divider{border:none;border-top:1px solid #e8f5e4;margin:10px 0 12px;}
+.sealed-tag{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.sealed-tag .chk{color:#5A9B3F;font-size:15px;}
+.sealed-tag .lbl{font-size:13px;color:#666;}
+.sealed-tag .tm{font-size:11px;color:#999;margin-left:auto;}
+.sealed-box{background:#f4faf0;border-radius:10px;padding:14px;text-align:center;}
+.sealed-box .s1{font-size:13px;color:#2E7D32;font-weight:500;}
+.sealed-box .s2{font-size:11px;color:#5A9B3F;margin-top:5px;}
+.edit-btn{margin-top:12px;width:100%;padding:9px;border-radius:10px;border:1px solid #d4e8cc;background:#fff;font-size:12px;color:#5A9B3F;cursor:pointer;font-family:inherit;}
+.edit-btn:hover{background:#f4faf0;}
+.cancel-btn{margin-top:8px;width:100%;padding:9px;border-radius:10px;border:1px solid #d4e8cc;background:#fff;font-size:12px;color:#888;cursor:pointer;font-family:inherit;}
+.cancel-btn:hover{background:#f9f9f9;}
+.edit-notice{font-size:11px;color:#5A9B3F;margin-bottom:8px;}
 
-  /* 사랑해 메시지 */
-  .love-msg{font-size:15px;}
-  .love-msg .heart{color:#E8789A;}
-  .love-msg .text{color:#2E7D32;font-weight:500;}
+.cap-card{background:#f4faf0;border:1px solid #c8e6c9;border-radius:16px;padding:16px;margin-bottom:14px;}
+.cap-btn{width:100%;background:none;border:none;cursor:pointer;padding:0;display:flex;align-items:center;gap:10px;text-align:left;}
+.ci{font-size:20px;}
+.ct{font-size:13px;font-weight:600;color:#2E7D32;}
+.cd{font-size:11px;color:#5A9B3F;margin-top:3px;}
+.ar{color:#5A9B3F;font-size:11px;margin-left:auto;}
+.cap-body{margin-top:12px;padding-top:12px;border-top:1px solid #c8e6c9;}
+.cap-body p{font-size:14px;color:#1a1a1a;line-height:1.85;}
+.cap-body .cm{margin-top:8px;white-space:pre-wrap;}
+.cap-body .cl{margin-top:14px;}
 
-  /* 봉인 완료 */
-  .sealed-tag{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
-  .sealed-tag .check{color:#5A9B3F;font-size:15px;}
-  .sealed-tag .label{font-size:13px;color:#666;}
-  .sealed-tag .time{font-size:11px;color:#999;margin-left:auto;}
-  .sealed-box{background:#f4faf0;border-radius:10px;padding:14px;text-align:center;}
-  .sealed-box p{font-size:13px;color:#2E7D32;font-weight:500;}
-  .sealed-box p.sub{font-size:11px;color:#5A9B3F;margin-top:5px;font-weight:400;}
+.motiv-card{background:#fff;border:1px solid #d4e8cc;border-radius:16px;padding:16px;margin-bottom:14px;}
+.streak-row{display:flex;align-items:center;gap:12px;}
+.fire{font-size:22px;}
+.st-title{font-size:13px;font-weight:500;color:#1a1a1a;}
+.st-sub{font-size:11px;color:#888;margin-top:2px;}
+.cd-box{background:#f4faf0;border-radius:10px;padding:12px;margin-top:12px;}
+.cd-title{font-size:13px;font-weight:500;color:#2E7D32;}
+.cd-sub{font-size:11px;color:#5A9B3F;margin-top:4px;}
 
-  /* 타임캡슐 */
-  .capsule-card{
-    background:#f4faf0;border:1px solid #c8e6c9;
-    border-radius:16px;padding:16px;margin-bottom:14px;
-  }
-  .capsule-btn{
-    width:100%;background:none;border:none;cursor:pointer;
-    padding:0;display:flex;align-items:center;gap:10px;text-align:left;
-  }
-  .capsule-btn .cap-icon{font-size:20px;}
-  .capsule-btn .cap-title{font-size:13px;font-weight:600;color:#2E7D32;}
-  .capsule-btn .cap-date{font-size:11px;color:#5A9B3F;margin-top:3px;}
-  .capsule-btn .arrow{color:#5A9B3F;font-size:11px;margin-left:auto;}
-  .capsule-body{margin-top:12px;padding-top:12px;border-top:1px solid #c8e6c9;}
-  .capsule-body p{font-size:14px;color:#1a1a1a;line-height:1.85;}
-  .capsule-body .cap-msg{margin-top:8px;white-space:pre-wrap;}
-  .capsule-body .cap-love{margin-top:14px;}
-
-  /* 동기부여 */
-  .motiv-card{background:#fff;border:1px solid #d4e8cc;border-radius:16px;padding:16px;margin-bottom:14px;}
-  .streak-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
-  .streak-row .fire{font-size:22px;}
-  .streak-row .streak-title{font-size:13px;font-weight:500;color:#1a1a1a;}
-  .streak-row .streak-sub{font-size:11px;color:#888;margin-top:2px;}
-  .countdown-box{background:#f4faf0;border-radius:10px;padding:12px;}
-  .countdown-box .cd-title{font-size:13px;font-weight:500;color:#2E7D32;}
-  .countdown-box .cd-sub{font-size:11px;color:#5A9B3F;margin-top:4px;}
-
-  /* 하단 변경 버튼 */
-  .change-btn{
-    display:block;width:100%;background:none;border:none;
-    font-size:11px;color:#aaa;cursor:pointer;padding:6px;
-    text-align:center;font-family:inherit;
-    margin-top:4px;
-  }
-  .change-btn:hover{color:#888;}
+.bottom-btns{display:flex;justify-content:center;gap:16px;margin-top:10px;}
+.soft-btn{background:none;border:none;font-size:11px;color:#bbb;cursor:pointer;padding:6px 10px;font-family:inherit;}
+.soft-btn:hover{color:#888;}
 </style>
 </head>
 <body>
 <div id="app"></div>
-
 <script>
 (function(){
-  let clockTick=null;
-  let st={name:null,nk:null,todayEntry:null,capsule:null,meta:null,open:false,draft:''};
 
-  function getNick(full){
-    const name=(full||'').trim();
-    if(!name)return'';
-    const g=name.length>1?name.slice(1):name;
-    const last=g[g.length-1];
-    const c=last.charCodeAt(0);
-    if(c<0xAC00||c>0xD7A3)return g+'아';
-    return g+((c-0xAC00)%28!==0?'아':'야');
-  }
+var clockTick=null;
+var st={name:null,nk:null,todayEntry:null,capsule:null,meta:null,open:false,draft:'',editing:false};
 
-  const PF='haengbok:';
-  function lg(k){try{const v=localStorage.getItem(PF+k);return v?JSON.parse(v):null;}catch{return null;}}
-  function ls(k,v){try{localStorage.setItem(PF+k,JSON.stringify(v));}catch{}}
-  function ld(k){try{localStorage.removeItem(PF+k);}catch{}}
+function getNick(full){
+  var name=(full||'').trim();
+  if(!name)return'';
+  var g=name.length>1?name.slice(1):name;
+  var last=g[g.length-1];
+  var c=last.charCodeAt(0);
+  if(c<0xAC00||c>0xD7A3)return g+'아';
+  return g+((c-0xAC00)%28!==0?'아':'야');
+}
 
-  function tKey(){return new Date().toISOString().slice(0,10);}
-  function lyKey(){
-    const d=new Date();
-    return`${d.getFullYear()-1}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-  }
-  function fDate(d){
-    const ds=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
-    return`${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일 ${ds[d.getDay()]}`;
-  }
-  function fTime(iso){
-    try{const d=new Date(iso),h=d.getHours(),m=String(d.getMinutes()).padStart(2,'0');
-    return`${h<12?'오전':'오후'} ${h%12||12}:${m}`;}catch{return'';}
-  }
-  function fDateFull(key){
-    try{const d=new Date(key+'T00:00:00'),ds=['일','월','화','수','목','금','토'];
-    return`${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일 (${ds[d.getDay()]}요일)`;}catch{return key;}
-  }
-  function nowT(){
-    const d=new Date(),h=d.getHours(),m=String(d.getMinutes()).padStart(2,'0');
-    return`${h<12?'오전':'오후'} ${h%12||12}:${m}`;
-  }
-  function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+var PF='hm3:';
+function lg(k){try{var v=localStorage.getItem(PF+k);return v?JSON.parse(v):null;}catch(e){return null;}}
+function ls(k,v){try{localStorage.setItem(PF+k,JSON.stringify(v));}catch(e){}}
+function ld(k){try{localStorage.removeItem(PF+k);}catch(e){}}
 
-  function loveHTML(nk){
-    return`<span class="heart">♡</span><span class="text">${esc(nk)}, 사랑해</span><span class="heart">♡</span>`;
-  }
+function pad(n){return String(n).padStart(2,'0');}
+function tKey(){return new Date().toISOString().slice(0,10);}
+function lyKey(){var d=new Date();return(d.getFullYear()-1)+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
+function fDate(d){
+  var ds=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
+  return d.getFullYear()+'년 '+(d.getMonth()+1)+'월 '+d.getDate()+'일 '+ds[d.getDay()];
+}
+function fTime(iso){
+  try{var d=new Date(iso),h=d.getHours(),m=pad(d.getMinutes());return(h<12?'오전':'오후')+' '+(h%12||12)+':'+m;}catch(e){return'';}
+}
+function fDateFull(key){
+  try{var d=new Date(key+'T00:00:00'),ds=['일','월','화','수','목','금','토'];
+  return d.getFullYear()+'년 '+(d.getMonth()+1)+'월 '+d.getDate()+'일 ('+ds[d.getDay()]+'요일)';}catch(e){return key;}
+}
+function nowT(){var d=new Date(),h=d.getHours(),m=pad(d.getMinutes());return(h<12?'오전':'오후')+' '+(h%12||12)+':'+m;}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function loveHTML(nk){return'<span class="heart">♡</span><span class="txt">'+esc(nk)+', 사랑해</span><span class="heart">♡</span>';}
 
-  function init(){
-    try{const name=lg('user');if(name&&name.trim())loadUser(name);else renderEntry();}
-    catch{renderEntry();}
-  }
+function init(){
+  try{var name=lg('user');if(name&&name.trim())loadUser(name);else renderEntry();}
+  catch(e){renderEntry();}
+}
 
-  function loadUser(name){
+function loadUser(name){
+  try{
+    var nk=getNick(name);
+    var today=lg('e:'+name+':'+tKey());
+    var cap=lg('e:'+name+':'+lyKey());
+    var meta=lg('m:'+name)||{streak:0,lastW:null,first:null};
+    st={name:name,nk:nk,todayEntry:today,capsule:cap,meta:meta,open:false,draft:'',editing:false};
+    renderMain();
+  }catch(e){renderEntry();}
+}
+
+function renderEntry(){
+  if(clockTick){clearInterval(clockTick);clockTick=null;}
+  document.getElementById('app').innerHTML=
+    '<div class="entry-wrap">'+
+    '<div class="entry-icon">🌱</div>'+
+    '<div class="entry-title">행복메모</div>'+
+    '<div class="entry-sub">매일 나를 위한 작은 위로</div>'+
+    '<div class="entry-card">'+
+    '<label>당신의 이름을 알려주세요</label>'+
+    '<input id="ni" type="text" placeholder="예: 이민정" autocomplete="off"'+
+    ' oninput="window._onNI(this.value)" onkeydown="if(event.key===\'Enter\')window._doStart()"/>'+
+    '<div style="height:14px;"></div>'+
+    '<button id="sb" class="btn-green" onclick="window._doStart()" disabled>시작하기</button>'+
+    '</div></div>';
+  try{document.getElementById('ni').focus();}catch(e){}
+}
+
+window._onNI=function(v){try{document.getElementById('sb').disabled=!v.trim();}catch(e){}};
+window._doStart=function(){
+  try{var v=(document.getElementById('ni').value||'').trim();if(!v)return;ls('user',v);loadUser(v);}catch(e){}
+};
+
+function renderMain(){
+  if(clockTick)clearInterval(clockTick);
+  var nk=st.nk,todayEntry=st.todayEntry,capsule=st.capsule;
+  var meta=st.meta,open=st.open,draft=st.draft,editing=st.editing;
+  var now=new Date();
+  var streak=(meta&&meta.streak)||0;
+  var first=meta&&meta.first;
+  var daysLeft=null;
+  if(first&&!capsule){
     try{
-      const nk=getNick(name);
-      const today=lg(`e:${name}:${tKey()}`);
-      const cap=lg(`e:${name}:${lyKey()}`);
-      const meta=lg(`m:${name}`)||{streak:0,lastW:null,first:null};
-      st={name,nk,todayEntry:today,capsule:cap,meta,open:false,draft:''};
-      renderMain();
-    }catch{renderEntry();}
+      var fd=new Date(first+'T00:00:00'),rv=new Date(fd);
+      rv.setFullYear(rv.getFullYear()+1);
+      var td=new Date();td.setHours(0,0,0,0);
+      daysLeft=Math.max(0,Math.ceil((rv-td)/86400000));
+    }catch(e){}
   }
 
-  function renderEntry(){
-    if(clockTick){clearInterval(clockTick);clockTick=null;}
-    document.getElementById('app').innerHTML=`
-<div class="entry-wrap">
-  <div class="entry-icon">🌱</div>
-  <div class="entry-title">행복메모</div>
-  <div class="entry-sub">매일 나를 위한 작은 위로</div>
-  <div class="card entry-card">
-    <label>당신의 이름을 알려주세요</label>
-    <input id="ni" type="text" placeholder="예: 이민정" autocomplete="off"
-      oninput="window._onNI(this.value)"
-      onkeydown="if(event.key==='Enter')window._doStart()"/>
-    <div style="height:14px;"></div>
-    <button id="sb" class="btn-green" onclick="window._doStart()" disabled>시작하기</button>
-  </div>
-</div>`;
-    try{document.getElementById('ni').focus();}catch{}
+  var capHTML='';
+  if(capsule){
+    var body=open?
+      '<div class="cap-body"><p>'+esc(nk)+'~</p><p class="cm">'+esc(capsule.text)+'</p><p class="cl love-msg">'+loveHTML(nk)+'</p></div>':'';
+    capHTML='<div class="cap-card"><button class="cap-btn" onclick="window._toggleCap()">'+
+      '<span class="ci">💌</span><div><div class="ct">1년 전 오늘의 편지가 도착했어요</div>'+
+      '<div class="cd">'+fDateFull(lyKey())+' · '+fTime(capsule.writtenAt)+'</div></div>'+
+      '<span class="ar">'+(open?'▲':'▼')+'</span></button>'+body+'</div>';
   }
 
-  window._onNI=function(v){
-    try{
-      const b=document.getElementById('sb');
-      const has=!!(v.trim());
-      b.disabled=!has;
-    }catch{}
-  };
-
-  window._doStart=function(){
-    try{
-      const v=(document.getElementById('ni').value||'').trim();
-      if(!v)return;
-      ls('user',v);
-      loadUser(v);
-    }catch{}
-  };
-
-  function renderMain(){
-    if(clockTick)clearInterval(clockTick);
-    const {name,nk,todayEntry,capsule,meta,open,draft}=st;
-    const now=new Date();
-    const streak=(meta&&meta.streak)||0;
-    const first=meta&&meta.first;
-
-    let daysLeft=null;
-    if(first&&!capsule){
-      try{
-        const fd=new Date(first+'T00:00:00');
-        const rv=new Date(fd);rv.setFullYear(rv.getFullYear()+1);
-        const td=new Date();td.setHours(0,0,0,0);
-        daysLeft=Math.max(0,Math.ceil((rv-td)/86400000));
-      }catch{}
-    }
-
-    let capHTML='';
-    if(capsule){
-      const body=open?`
-<div class="capsule-body">
-  <p>${esc(nk)}~</p>
-  <p class="cap-msg">${esc(capsule.text)}</p>
-  <p class="cap-love love-msg">${loveHTML(nk)}</p>
-</div>`:'';
-      capHTML=`
-<div class="capsule-card">
-  <button class="capsule-btn" onclick="window._toggleCap()">
-    <span class="cap-icon">💌</span>
-    <div>
-      <div class="cap-title">1년 전 오늘의 편지가 도착했어요</div>
-      <div class="cap-date">${fDateFull(lyKey())} · ${fTime(capsule.writtenAt)}</div>
-    </div>
-    <span class="arrow">${open?'▲':'▼'}</span>
-  </button>
-  ${body}
-</div>`;
-    }
-
-    let writeHTML='';
-    if(todayEntry){
-      writeHTML=`
-<div class="card">
-  <div class="sealed-tag">
-    <span class="check">✓</span>
-    <span class="label">오늘의 메모를 봉인했어요</span>
-    <span class="time">${fTime(todayEntry.writtenAt)}</span>
-  </div>
-  <div class="sealed-box">
-    <p>🔒 1년 후 오늘, 이 메모가 열립니다</p>
-    <p class="sub">오늘도 나를 위해 시간을 내주어서 고마워요</p>
-  </div>
-</div>`;
-    }else{
-      const hasDraft=!!(draft&&draft.trim());
-      writeHTML=`
-<div class="card">
-  <p class="greeting">${esc(nk)}~</p>
-  <textarea id="ta" placeholder="오늘 나에게 전하고 싶은 이야기를 적어보세요..."
-    spellcheck="false" oninput="window._onTA()">${esc(draft)}</textarea>
-  <hr class="divider"/>
-  <p class="love-msg">${loveHTML(nk)}</p>
-  <button id="subBtn" class="btn-green" onclick="window._doSubmit()"
-    style="margin-top:14px;" ${hasDraft?'':'disabled'}>
-    1년 뒤에 다시 읽기 🌱
-  </button>
-</div>`;
-    }
-
-    const hasMotiv=streak>0||(daysLeft!==null&&daysLeft>0);
-    let motivHTML='';
-    if(hasMotiv){
-      const sp=streak>0?`
-<div class="streak-row" style="${daysLeft!==null&&daysLeft>0?'':'margin-bottom:0;'}">
-  <span class="fire">🔥</span>
-  <div>
-    <div class="streak-title">${streak}일 연속으로 메모를 남겼어요</div>
-    <div class="streak-sub">꾸준함이 변화를 만들어요</div>
-  </div>
-</div>`:'';
-      const rp=daysLeft!==null&&daysLeft>0?`
-<div class="countdown-box">
-  <div class="cd-title">⏳ ${daysLeft}일 후, 첫 타임캡슐이 열려요</div>
-  <div class="cd-sub">매일 메모를 남겨주세요. 1년 후의 내가 기다리고 있어요 🌱</div>
-</div>`:'';
-      motivHTML=`<div class="motiv-card">${sp}${rp}</div>`;
-    }
-
-    document.getElementById('app').innerHTML=`
-<div class="title-area"><h1>행복메모</h1></div>
-<div class="card date-card">
-  <div class="date-text">${fDate(now)}</div>
-  <div class="time-text" id="clk">${nowT()}</div>
-</div>
-${capHTML}${writeHTML}${motivHTML}
-<button class="change-btn" onclick="window._changeUser()">다른 이름으로 변경</button>
-<button class="change-btn" onclick="window._resetDemo()" style="color:#ccc;font-size:10px;">🔧 데모 초기화</button>`;
-
-    try{
-      const ta=document.getElementById('ta');
-      if(ta){ta.focus();ta.setSelectionRange(ta.value.length,ta.value.length);}
-    }catch{}
-    clockTick=setInterval(()=>{
-      try{const el=document.getElementById('clk');if(el)el.textContent=nowT();}catch{}
-    },15000);
+  var writeHTML='';
+  if(todayEntry&&!editing){
+    writeHTML='<div class="card">'+
+      '<div class="sealed-tag"><span class="chk">✓</span><span class="lbl">오늘의 메모를 봉인했어요</span><span class="tm">'+fTime(todayEntry.writtenAt)+'</span></div>'+
+      '<div class="sealed-box"><p class="s1">🔒 1년 후 오늘, 이 메모가 열립니다</p><p class="s2">오늘도 나를 위해 시간을 내주어서 고마워요</p></div>'+
+      '<button class="edit-btn" onclick="window._startEdit()">✏️ 오늘 메모 수정하기</button>'+
+      '</div>';
+  }else{
+    var cur=editing&&todayEntry?todayEntry.text:draft;
+    var hasDraft=!!(cur&&cur.trim());
+    writeHTML='<div class="card">'+
+      (editing?'<div class="edit-notice">✏️ 수정 중 — 저장하면 기존 내용이 바뀌어요</div>':'')+
+      '<p class="greeting">'+esc(nk)+'~</p>'+
+      '<textarea id="ta" placeholder="오늘 나에게 전하고 싶은 이야기를 적어보세요..." spellcheck="false" oninput="window._onTA()">'+esc(cur)+'</textarea>'+
+      '<hr class="divider"/><p class="love-msg">'+loveHTML(nk)+'</p>'+
+      '<button id="subBtn" class="btn-green" onclick="window._doSubmit()" style="margin-top:14px;" '+(hasDraft?'':'disabled')+'>'+
+      (editing?'💾 수정 저장하기':'1년 뒤에 다시 읽기 🌱')+'</button>'+
+      (editing?'<button class="cancel-btn" onclick="window._cancelEdit()">취소</button>':'')+
+      '</div>';
   }
 
-  window._onTA=function(){
-    try{
-      const ta=document.getElementById('ta');if(!ta)return;
-      st.draft=ta.value;
-      const b=document.getElementById('subBtn');if(!b)return;
-      const has=ta.value.trim().length>0;
-      b.disabled=!has;
-    }catch{}
-  };
+  var motivHTML='';
+  if(streak>0||(daysLeft!==null&&daysLeft>0)){
+    var sp=streak>0?'<div class="streak-row"'+(daysLeft>0?' style="margin-bottom:12px;"':'')+'>'+
+      '<span class="fire">🔥</span><div><div class="st-title">'+streak+'일 연속으로 메모를 남겼어요</div>'+
+      '<div class="st-sub">꾸준함이 변화를 만들어요</div></div></div>':'';
+    var rp=daysLeft>0?'<div class="cd-box"><div class="cd-title">⏳ '+daysLeft+'일 후, 첫 타임캡슐이 열려요</div>'+
+      '<div class="cd-sub">매일 메모를 남겨주세요. 1년 후의 내가 기다리고 있어요 🌱</div></div>':'';
+    motivHTML='<div class="motiv-card">'+sp+rp+'</div>';
+  }
 
-  window._toggleCap=function(){
-    try{const ta=document.getElementById('ta');if(ta)st.draft=ta.value;}catch{}
-    st.open=!st.open;renderMain();
-  };
+  document.getElementById('app').innerHTML=
+    '<div class="title-area"><h1>행복메모</h1></div>'+
+    '<div class="card date-card"><div class="date-text">'+fDate(now)+'</div><div class="time-text" id="clk">'+nowT()+'</div></div>'+
+    capHTML+writeHTML+motivHTML+
+    '<div class="bottom-btns">'+
+    '<button class="soft-btn" onclick="window._changeUser()">다른 이름으로 변경</button>'+
+    '<button class="soft-btn" onclick="window._resetDemo()">🔧 데모 초기화</button>'+
+    '</div>';
 
-  window._doSubmit=function(){
-    try{
-      const ta=document.getElementById('ta');
-      if(!ta||!ta.value.trim())return;
-      const entry={text:ta.value.trim(),writtenAt:new Date().toISOString()};
-      const tk=tKey();
-      ls(`e:${st.name}:${tk}`,entry);
-      const m=st.meta||{streak:0,lastW:null,first:null};
-      const yd=new Date();yd.setDate(yd.getDate()-1);
-      const yk=yd.toISOString().slice(0,10);
-      let ns=1;
-      if(m.lastW===yk)ns=(m.streak||0)+1;
-      else if(m.lastW===tk)ns=m.streak||1;
-      const nm={streak:ns,lastW:tk,first:m.first||tk};
-      ls(`m:${st.name}`,nm);
-      st.todayEntry=entry;st.meta=nm;st.draft='';
-      renderMain();
-    }catch{alert('저장 중 오류가 발생했어요. 다시 시도해주세요.');}
-  };
+  try{var ta=document.getElementById('ta');if(ta){ta.focus();ta.setSelectionRange(ta.value.length,ta.value.length);}}catch(e){}
+  clockTick=setInterval(function(){try{var el=document.getElementById('clk');if(el)el.textContent=nowT();}catch(e){}},15000);
+}
 
-  window._changeUser=function(){
-    try{ld('user');}catch{}
-    if(clockTick)clearInterval(clockTick);
-    st={name:null,nk:null,todayEntry:null,capsule:null,meta:null,open:false,draft:''};
-    renderEntry();
-  };
+window._onTA=function(){
+  try{
+    var ta=document.getElementById('ta');if(!ta)return;
+    st.draft=ta.value;
+    var b=document.getElementById('subBtn');if(!b)return;
+    b.disabled=!ta.value.trim();
+  }catch(e){}
+};
+window._toggleCap=function(){
+  try{var ta=document.getElementById('ta');if(ta)st.draft=ta.value;}catch(e){}
+  st.open=!st.open;renderMain();
+};
+window._startEdit=function(){st.editing=true;renderMain();};
+window._cancelEdit=function(){st.editing=false;st.draft='';renderMain();};
 
-  window._resetDemo=function(){
-    if(!confirm('데모 초기화: 오늘 저장된 메모와 이름을 모두 지웁니다. 계속할까요?'))return;
-    try{
-      // 현재 사용자의 오늘 메모만 삭제
-      if(st.name){
-        ld(`e:${st.name}:${tKey()}`);
-        ld(`m:${st.name}`);
-      }
-      ld('user');
-    }catch{}
-    if(clockTick)clearInterval(clockTick);
-    st={name:null,nk:null,todayEntry:null,capsule:null,meta:null,open:false,draft:''};
-    renderEntry();
-  };
+window._doSubmit=function(){
+  try{
+    var ta=document.getElementById('ta');
+    if(!ta||!ta.value.trim())return;
+    var entry={text:ta.value.trim(),writtenAt:new Date().toISOString()};
+    var tk=tKey();
+    ls('e:'+st.name+':'+tk,entry);
+    var m=st.meta||{streak:0,lastW:null,first:null};
+    var yd=new Date();yd.setDate(yd.getDate()-1);
+    var yk=yd.toISOString().slice(0,10);
+    var ns=1;
+    if(m.lastW===yk)ns=(m.streak||0)+1;
+    else if(m.lastW===tk)ns=m.streak||1;
+    var nm={streak:ns,lastW:tk,first:m.first||tk};
+    ls('m:'+st.name,nm);
+    st.todayEntry=entry;st.meta=nm;st.draft='';st.editing=false;
+    renderMain();
+  }catch(e){alert('저장 중 오류가 발생했어요.');}
+};
 
-  init();
+window._changeUser=function(){
+  try{ld('user');}catch(e){}
+  if(clockTick)clearInterval(clockTick);
+  st={name:null,nk:null,todayEntry:null,capsule:null,meta:null,open:false,draft:'',editing:false};
+  renderEntry();
+};
+
+window._resetDemo=function(){
+  if(!confirm('데모 초기화: 이름과 오늘 저장된 메모가 지워집니다.\n계속할까요?'))return;
+  try{
+    if(st.name){ld('e:'+st.name+':'+tKey());ld('m:'+st.name);}
+    ld('user');
+  }catch(e){}
+  if(clockTick)clearInterval(clockTick);
+  st={name:null,nk:null,todayEntry:null,capsule:null,meta:null,open:false,draft:'',editing:false};
+  renderEntry();
+};
+
+init();
 })();
 </script>
 </body>
